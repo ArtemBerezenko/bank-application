@@ -7,9 +7,12 @@ public class Client implements Report {
     private final List<Account> accounts = new ArrayList<>();
 
     private Account activeAccount;
-    private float initialOverdraft;
-    private float initialBalance;
+    private float initialOverdraft; //кредитная карта/возможность уходить в минус
+    private float initialBalance; //баланс изначально
     private final Gender gender;
+
+    StringBuilder arrayBalance = new StringBuilder();
+
 
     public Client(String name, float initialOverdraft, Gender gender) {
         this.name = name;
@@ -27,6 +30,7 @@ public class Client implements Report {
 
     public void setInitialBalance(float initialBalance) {
         this.initialBalance = initialBalance;
+
     }
 
     public float getInitialOverdraft() {
@@ -39,6 +43,7 @@ public class Client implements Report {
 
     public void setActiveAccount(Account activeAccount) {
         this.activeAccount = activeAccount;
+        arrayBalance.append(activeAccount);
     }
 
     public Account getActiveAccount() {
@@ -71,4 +76,26 @@ public class Client implements Report {
         return gender.getSalutation();
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return name.equals(client.name) &&
+                gender == client.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, gender);
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", gender=" + gender +
+                '}';
+    }
 }

@@ -26,8 +26,8 @@ public class BankServiceImpl implements BankService {
     public Account createAccount(Client client, String accountType) {
         Account account;
         switch (accountType) {
-            case "Saving" -> account = new SavingAccount(client.getInitialBalance());
-            case "Checking" -> account = new CheckingAccount(client.getInitialBalance(), client.getInitialOverdraft());
+            case "Saving" -> account = new SavingAccount(client.getInitialBalance()); //нет возможности овердрафта
+            case "Checking" -> account = new CheckingAccount(client.getInitialBalance(), client.getInitialOverdraft()); //есть возможность овердрафта
             default -> account = null;
         };
         client.addAccount(account);

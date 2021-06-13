@@ -1,5 +1,7 @@
 package com.practice.bankapp.model;
 
+import java.util.Objects;
+
 public abstract class AbstractAccount implements Account {
 	protected float balance;
 
@@ -20,5 +22,28 @@ public abstract class AbstractAccount implements Account {
 	@Override
 	public float getBalance() {
 		return balance;
+	}
+
+	public int decimalValue(){ return Math.round(balance); }
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		AbstractAccount that = (AbstractAccount) o;
+		return Float.compare(that.balance, balance) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(balance);
+	}
+
+	@Override
+	public String toString() {
+		return "AbstractAccount{" +
+				"balance=" + balance +
+				'}';
 	}
 }
