@@ -11,8 +11,6 @@ public class Client implements Report {
     private float initialBalance; //баланс изначально
     private final Gender gender;
 
-    StringBuilder arrayBalance = new StringBuilder();
-
 
     public Client(String name, float initialOverdraft, Gender gender) {
         this.name = name;
@@ -43,7 +41,6 @@ public class Client implements Report {
 
     public void setActiveAccount(Account activeAccount) {
         this.activeAccount = activeAccount;
-        arrayBalance.append(activeAccount);
     }
 
     public Account getActiveAccount() {
@@ -93,9 +90,11 @@ public class Client implements Report {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "name='" + name + '\'' +
-                ", gender=" + gender +
-                '}';
+        StringBuilder strings = new StringBuilder();
+        strings.append("Client{" + "name='" + name + ", gender=" + gender + '}');
+        for (Account account : accounts) {
+            strings.append("Account:" + account.toString());
+        }
+        return strings.toString();
     }
 }

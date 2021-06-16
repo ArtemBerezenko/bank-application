@@ -1,5 +1,6 @@
 package com.practice.bankapp.commands;
 
+import com.practice.bankapp.exceptions.OverDraftLimitExceededException;
 import com.practice.bankapp.model.Account;
 import com.practice.bankapp.model.Bank;
 import com.practice.bankapp.model.Client;
@@ -7,19 +8,18 @@ import com.practice.bankapp.model.Gender;
 import com.practice.bankapp.service.BankService;
 import com.practice.bankapp.service.BankServiceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class BankCommander extends Bank {
     public static Bank currentBank = new Bank();
+    public static BankService bankService = new BankServiceImpl();
+    public static Client currentClient;
     public static Command[] commands = {
 
             new Command() {
                 public void execute() {
                     System.exit(0);
                 }
-
                 public void printCommandInfo() {
                     System.out.println("Exit");
                 }
@@ -30,39 +30,63 @@ public class BankCommander extends Bank {
                     Scanner in = new Scanner(System.in);
                     System.out.print("Input client: ");
                     String searchWord = in.nextLine();
-                    Client forFind = new Client(searchWord, null);
-                    boolean check = currentBank.checkIfClientExists(forFind);
-                    if (check) {
-                        System.out.println(searchWord + " is found.");
-                        List<Client> clients = currentBank.getClients();
-                        Client currentClient = currentBank.getClient(forFind);
-                        List<Account> accounts = currentClient.getAccounts();
-                        Account currentAccount = accounts.get(0);
-                        BankService bankService = new BankServiceImpl();
-                        bankService.setActiveAccount(currentClient, currentAccount);
-                    } else System.out.println(searchWord + " not found.");
+                    Operations.findSomeClient(searchWord);
+                    System.out.println(currentClient.toString());
                 }
 
                 public void printCommandInfo() {
                     System.out.println("Find");
                 }
-
             },
 
             new Command() {
                 public void execute() {
-
-
+                    Scanner in = new Scanner(System.in);
+                    System.out.print("Input amount: ");
+                    float amount = in.nextFloat();
+                    Operations.depositSomeClient(amount);
                 }
 
                 public void printCommandInfo() {
                     System.out.println("Deposit");
                 }
+            },
 
+            new Command() {
+                public void execute() {
+                    Scanner in = new Scanner(System.in);
+                    System.out.print("Input amount: ");
+                    float amount = in.nextFloat();
+                    Operations.withdrawSomeClient(amount);
+                }
+
+                public void printCommandInfo() {
+                    System.out.println("Withdraw");
+                }
+            },
+
+            new Command() {
+                public void execute() {
+                    Scanner in = new Scanner(System.in);
+                    System.out.print("Transfer amount: ");
+                    float amount = in.nextFloat();
+                    Operations.withdrawSomeClient(amount);
+                    Scanner newIn = new Scanner(System.in);
+                    System.out.print("Recipient: ");
+                    String searchWord = newIn.nextLine();
+                    Operations.findSomeClient(searchWord);
+                    Operations.depositSomeClient(amount);
+                }
+
+                public void printCommandInfo() {
+                    System.out.println("Transfer");
+                }
             }
     };
 
     public static void printMenu() {
+//        List<Client> clients = List.of(new Client("a", Gender.MALE), new Client("b", Gender.MALE));
+//        clients.sort(Comparator.comparing(Client::getName));
         System.out.println();
         for (int i = 0; i < commands.length; i++) {
             System.out.print(i + ") ");
@@ -70,4 +94,5 @@ public class BankCommander extends Bank {
         }
     }
 }
-//паттерн команда
+// паттерн команда
+// ctrl + K = коммит
