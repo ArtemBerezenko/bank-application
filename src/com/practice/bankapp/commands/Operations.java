@@ -5,14 +5,13 @@ import com.practice.bankapp.model.Client;
 
 import java.util.List;
 
-public class Operations extends  BankCommander{
+public class Operations extends BankCommander{
 
     public static void findSomeClient(String searchWord) {
         List<Client> clients = currentBank.getClients();
         for (Client client : clients) {
             if (searchWord.equals(client.getName())) {
                 currentClient = client;
-
             }
         }
     }

@@ -15,73 +15,11 @@ public class BankCommander extends Bank {
     public static BankService bankService = new BankServiceImpl();
     public static Client currentClient;
     public static Command[] commands = {
-
-            new Command() {
-                public void execute() {
-                    System.exit(0);
-                }
-                public void printCommandInfo() {
-                    System.out.println("Exit");
-                }
-            },
-
-            new Command() {
-                public void execute() {
-                    Scanner in = new Scanner(System.in);
-                    System.out.print("Input client: ");
-                    String searchWord = in.nextLine();
-                    Operations.findSomeClient(searchWord);
-                    System.out.println(currentClient.toString());
-                }
-
-                public void printCommandInfo() {
-                    System.out.println("Find");
-                }
-            },
-
-            new Command() {
-                public void execute() {
-                    Scanner in = new Scanner(System.in);
-                    System.out.print("Input amount: ");
-                    float amount = in.nextFloat();
-                    Operations.depositSomeClient(amount);
-                }
-
-                public void printCommandInfo() {
-                    System.out.println("Deposit");
-                }
-            },
-
-            new Command() {
-                public void execute() {
-                    Scanner in = new Scanner(System.in);
-                    System.out.print("Input amount: ");
-                    float amount = in.nextFloat();
-                    Operations.withdrawSomeClient(amount);
-                }
-
-                public void printCommandInfo() {
-                    System.out.println("Withdraw");
-                }
-            },
-
-            new Command() {
-                public void execute() {
-                    Scanner in = new Scanner(System.in);
-                    System.out.print("Transfer amount: ");
-                    float amount = in.nextFloat();
-                    Operations.withdrawSomeClient(amount);
-                    Scanner newIn = new Scanner(System.in);
-                    System.out.print("Recipient: ");
-                    String searchWord = newIn.nextLine();
-                    Operations.findSomeClient(searchWord);
-                    Operations.depositSomeClient(amount);
-                }
-
-                public void printCommandInfo() {
-                    System.out.println("Transfer");
-                }
-            }
+            new FindClientCommand(),
+            new DepositCommand(),
+            new WithdrawCommand(),
+            new TransferCommand(),
+            new ExitCommand()
     };
 
     public static void printMenu() {
@@ -94,5 +32,4 @@ public class BankCommander extends Bank {
         }
     }
 }
-// паттерн команда
 // ctrl + K = коммит
