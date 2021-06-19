@@ -23,8 +23,6 @@ public class BankCommander extends Bank {
     };
 
     public static void printMenu() {
-//        List<Client> clients = List.of(new Client("a", Gender.MALE), new Client("b", Gender.MALE));
-//        clients.sort(Comparator.comparing(Client::getName));
         System.out.println();
         for (int i = 0; i < commands.length; i++) {
             System.out.print(i + ") ");
