@@ -21,7 +21,7 @@ public class BankApplication {
 
         initialize(bank);
         modifyBank(client1, 0, 500);
-        modifyBank(client2, 20, 0);
+        modifyBank(client2, 0, 500);
         printBankReport(bank);
 
         BankCommander.currentBank = bank;
@@ -47,7 +47,7 @@ public class BankApplication {
         bankService.setActiveAccount(client1, client1Account1);
 
         client2 = new Client("Adam Sandler", 1000, Gender.MALE);
-        client2.setInitialBalance(1000);
+        client2.setInitialBalance(500);
         Account client2Account1 =  bankService.createAccount(client2,"Checking");
         client2.setActiveAccount(client2Account1);
 

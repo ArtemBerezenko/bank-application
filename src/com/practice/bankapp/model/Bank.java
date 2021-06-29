@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.practice.bankapp.exceptions.ClientExistsException;
+import com.practice.bankapp.service.BankService;
+import com.practice.bankapp.service.BankServiceImpl;
 
 public class Bank implements Report {
-    private List<Client> clients = new ArrayList<>();
+    protected static List<Client> clients = new ArrayList<>();
 
 	public List<Client> getClients() {
 		return clients;
@@ -38,6 +40,15 @@ public class Bank implements Report {
 			}
 		}
 		return false;
+	}
+
+	public Client getClient(Client client) {
+		for (Client c : clients) {
+			if (c.getName().equals(client.getName())) {
+				return c;
+			}
+		}
+		return client;
 	}
 }
 
