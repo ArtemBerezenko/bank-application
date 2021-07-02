@@ -46,7 +46,7 @@ public class BankApplication {
         Account client1Account1 = bankService.createAccount(client1, "Saving");
         bankService.setActiveAccount(client1, client1Account1);
 
-        client2 = new Client("Adam Sandler", 1000, Gender.MALE, "Moscow");
+        client2 = new Client("Adam Sandler", 1100, Gender.MALE, "Moscow");
         client2.setInitialBalance(500);
         Account client2Account1 =  bankService.createAccount(client2,"Checking");
         bankService.setActiveAccount(client2, client2Account1);
