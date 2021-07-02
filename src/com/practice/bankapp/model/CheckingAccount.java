@@ -40,4 +40,5 @@ public class CheckingAccount extends AbstractAccount {
 	public String getAccountName() {
 		return "Checking Account";
 	}
+
 }

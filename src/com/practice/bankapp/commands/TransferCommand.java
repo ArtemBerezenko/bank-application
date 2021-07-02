@@ -12,7 +12,7 @@ public class TransferCommand extends BankCommander implements Command {
         Scanner newIn = new Scanner(System.in);
         System.out.print("Recipient: ");
         String searchWord = newIn.nextLine();
-        Operations.findSomeClient(searchWord);
+        Operations.findSomeAccount(searchWord);
         Operations.depositSomeClient(amount);
     }
 

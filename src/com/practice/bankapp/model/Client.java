@@ -2,24 +2,26 @@ package com.practice.bankapp.model;
 
 import java.util.*;
 
-public class Client implements Report {
+public class Client implements Report{
     private final String name;
-    private final List<Account> accounts = new ArrayList<>();
+    private static final Set<Account> staticAccounts = new HashSet<Account>();
+    private final Set<Account> nonStaticAccounts = new HashSet<Account>();
 
     private Account activeAccount;
     private float initialOverdraft; //кредитная карта/возможность уходить в минус
     private float initialBalance; //баланс изначально
     private final Gender gender;
+    private final String city;
 
-
-    public Client(String name, float initialOverdraft, Gender gender) {
+    public Client(String name, float initialOverdraft, Gender gender, String city) {
         this.name = name;
         this.initialOverdraft = initialOverdraft;
         this.gender = gender;
+        this.city = city;
     }
 
-    public Client(String name, Gender gender) {
-        this(name, 0, gender);
+    public Client(String name, Gender gender, String city) {
+        this(name, 0, gender, city);
     }
 
     public float getInitialBalance() {
@@ -51,17 +53,22 @@ public class Client implements Report {
         return this.name;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public String getCity() { return this.city; }
+
+    //public void setCity(String city) { this.city = city; }
+
+    public static Set<Account> getAccounts() {
+        return staticAccounts;
     }
 
     public void addAccount(Account account) {
-        accounts.add(account);
+        staticAccounts.add(account);
+        nonStaticAccounts.add(account);
     }
 
     public void printReport() {
         System.out.println("Name : " + this.getClientSalutation() + " " + name);
-        for (Account a : accounts) {
+        for (Account a : nonStaticAccounts) {
             System.out.print(a.getAccountName() + " balance: " + a.getBalance()
                     + " ");
         }
@@ -79,22 +86,26 @@ public class Client implements Report {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return name.equals(client.name) &&
-                gender == client.gender;
+        return Float.compare(client.initialOverdraft, initialOverdraft) == 0 && Float.compare(client.initialBalance, initialBalance) == 0 && name.equals(client.name) && Objects.equals(nonStaticAccounts, client.nonStaticAccounts) && Objects.equals(activeAccount, client.activeAccount) && gender == client.gender && city.equals(client.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, gender);
+        return Objects.hash(name, nonStaticAccounts, activeAccount, initialOverdraft, initialBalance, gender, city);
     }
 
     @Override
     public String toString() {
-        StringBuilder strings = new StringBuilder();
-        strings.append("Client{" + "name='" + name + ", gender=" + gender + '}');
-        for (Account account : accounts) {
-            strings.append("Account:" + account.toString());
-        }
-        return strings.toString();
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", balance=" + activeAccount.getBalance() +
+                ", initialOverdraft=" + initialOverdraft +
+                ", gender=" + gender +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 }

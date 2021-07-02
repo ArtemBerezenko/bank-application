@@ -1,18 +1,18 @@
 package com.practice.bankapp.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.practice.bankapp.exceptions.ClientExistsException;
 import com.practice.bankapp.service.BankService;
 import com.practice.bankapp.service.BankServiceImpl;
 
 public class Bank implements Report {
-    protected static List<Client> clients = new ArrayList<>();
-
-	public List<Client> getClients() {
-		return clients;
-	}
+    //protected static List<Client> clients = new ArrayList<>(); //сделать сет и могласовать иквалс и хэшкод
+	protected static Set<Client> clients = new HashSet<>();
 
 	public void addClient(Client c) throws ClientExistsException {
 		if (!checkIfClientExists(c)) {
@@ -34,21 +34,14 @@ public class Bank implements Report {
 	}
 
 	public boolean checkIfClientExists(Client client) {
-		for (Client c : clients) {
-			if (c.getName().equals(client.getName())) {
-				return true;
-			}
+		if (clients.contains(client)) {
+			return true;
 		}
-		return false;
+		else return false;
 	}
 
-	public Client getClient(Client client) {
-		for (Client c : clients) {
-			if (c.getName().equals(client.getName())) {
-				return c;
-			}
-		}
-		return client;
+	public Set<Client> getClients() {
+		return clients;
 	}
 }
 

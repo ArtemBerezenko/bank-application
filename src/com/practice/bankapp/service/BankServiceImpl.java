@@ -17,10 +17,11 @@ public class BankServiceImpl implements BankService {
 		bank.removeClient(client);
 	}
 
-	@Override
-	public void setActiveAccount(Client client, Account account) {
-		client.setActiveAccount(account);
-	}
+    @Override
+    public void setActiveAccount(Client client, Account account) {
+        client.setActiveAccount(account);
+    }
+
 
     @Override
     public Account createAccount(Client client, String accountType) {

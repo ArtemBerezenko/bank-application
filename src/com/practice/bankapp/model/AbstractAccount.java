@@ -42,7 +42,7 @@ public abstract class AbstractAccount implements Account {
 
 	@Override
 	public String toString() {
-		return "AbstractAccount{" +
+		return "Account{" +
 				"balance=" + balance +
 				'}';
 	}
