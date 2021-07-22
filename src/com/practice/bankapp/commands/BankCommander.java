@@ -13,6 +13,7 @@ public class BankCommander extends Bank {
     public static Client currentClient;
     public static BankReport bank = new BankReport();
     public static Command[] commands = {
+            new ParseCommand(),
             new NumberOfClientsCommand(),
             new AccountNumberCommand(),
             new ClientsSortedCommand(),

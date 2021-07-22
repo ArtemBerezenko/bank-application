@@ -1,55 +1,49 @@
 package com.practice.bankapp.model;
 
 
+import com.practice.bankapp.commands.BankCommander;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Comparator.comparing;
+public class BankReport {
 
-public class BankReport extends Bank{
-
-    private final Set<Account> allAccounts = Client.getAccounts();
     private float checkingSum;
-    private final Map<String, List<Client>> clientsOfCity = new HashMap<>();
-    private final List<Client> listClients = new ArrayList<>(clients);
+    private int countOfAccounts;
 
-    public int getNumberOfClients() {
-        return clients.size();
+    public int getNumberOfClients(Bank bank) {
+        return bank.clients.size();
     }
 
-    public int getAccountNumber() {
-        return Client.getAccounts().size();
+    public int getAccountNumber(Bank bank) {
+        for (Client c : bank.clients) {
+            countOfAccounts += c.getAccounts().size();
+        }
+        return countOfAccounts;
     }
 
-    public List<Account> getClientsSorted() {
-        List<Account> listOfAccounts = new ArrayList<Account>(allAccounts);
-        Collections.sort(listOfAccounts, new Comparator<Account>() {
-            public int compare(Account o1, Account o2) {
-                return Float.compare(o1.getBalance(), o2.getBalance());
-            }
-        });
-
-        return new ArrayList<Account>(listOfAccounts);
+    public List<Client> getClientsSorted(Bank bank) {
+        List<Client> result = bank.clients.stream()
+                .sorted((o1, o2) -> Float.compare(o1.getInitialBalance(), o2.getInitialBalance()))
+                .collect(Collectors.toList());
+        return result;
     }
 
-    public float getBankCreditSum() {
-        for (Client client : clients) {
+    public float getBankCreditSum(Bank bank) {
+        for (Client client : bank.clients) {
             checkingSum += client.getInitialOverdraft();
         }
         return checkingSum;
     }
 
-    public Map<String, List<Client>> getClientsByCity() {
+    public Map<String, List<Client>> getClientsByCity(Bank bank) {
+        Map<String, List<Client>> clientsOfCity = new HashMap<>();
         List<String> city = new ArrayList<>();
 
-        for (int i = 0; i < listClients.size(); i++) {
-            city.add(i, listClients.get(i).getCity());
-        }
-
-        Set<String> set = new LinkedHashSet<>(city);
+        Set<String> set = bank.clients.stream()
+                .map(Client::getCity).collect(Collectors.toSet());
 
         for (String c : set) {
-            clientsOfCity.put(c, clients.stream()
+            clientsOfCity.put(c, bank.clients.stream()
                     .filter(mc -> mc.getCity().equals(c))
                     .collect(Collectors.toList()));
         }

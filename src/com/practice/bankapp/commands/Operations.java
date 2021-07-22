@@ -10,7 +10,7 @@ import java.util.Set;
 public class Operations extends BankCommander {
 
     public static void findSomeAccount(String searchWord) {
-        Set<Account> accounts = Client.getAccounts();
+        //Set<Account> accounts = Client.getAccounts();
         Set<Client> clients = currentBank.getClients();
         for (Client client : clients) {
             if (searchWord.equals(client.getName())) {
