@@ -26,9 +26,4 @@ public class BankFeedService {
             return maps;
         }
     }
-
-
-//    public void loadFeed(String folder) {
-//
-//    }
 }
