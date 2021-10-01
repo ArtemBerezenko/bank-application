@@ -8,7 +8,7 @@ public class FindClientCommand extends BankCommander implements Command {
         Scanner in = new Scanner(System.in);
         System.out.print("Input client: ");
         String searchWord = in.nextLine();
-        Operations.findSomeClient(searchWord);
+        Operations.findSomeAccount(searchWord);
         System.out.println(currentClient.toString());
     }
 

@@ -33,7 +33,6 @@ public class BankApplication {
             int command = Integer.parseInt(commandString);
             BankCommander.commands[command].execute();
         }
-
     }
 
     /*
@@ -41,15 +40,15 @@ public class BankApplication {
      */
     public static void initialize(Bank bank) {
         BankService bankService = new BankServiceImpl();
-        client1 = new Client("Jonny Bravo", Gender.MALE);
+        client1 = new Client("Jonny Bravo", Gender.MALE, "Omsk");
         client1.setInitialBalance(1000);
         Account client1Account1 = bankService.createAccount(client1, "Saving");
         bankService.setActiveAccount(client1, client1Account1);
 
-        client2 = new Client("Adam Sandler", 1000, Gender.MALE);
+        client2 = new Client("Adam Sandler", 1100, Gender.MALE, "Omsk");
         client2.setInitialBalance(500);
-        Account client2Account1 =  bankService.createAccount(client2,"Checking");
-        client2.setActiveAccount(client2Account1);
+        Account client2Account1 = bankService.createAccount(client2, "Checking");
+        bankService.setActiveAccount(client2, client2Account1);
 
         System.out.println(client1.toString());
         System.out.println(client2.toString());

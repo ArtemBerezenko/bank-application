@@ -4,32 +4,29 @@ import java.util.*;
 
 public class Client implements Report {
     private final String name;
-    private final List<Account> accounts = new ArrayList<>();
-
+    private final Set<Account> accounts = new HashSet<Account>();
     private Account activeAccount;
-    private float initialOverdraft; //кредитная карта/возможность уходить в минус
-    private float initialBalance; //баланс изначально
+    private float initialOverdraft;
+    private float initialBalance;
     private final Gender gender;
+    private final String city;
 
-
-    public Client(String name, float initialOverdraft, Gender gender) {
+    public Client(String name, float initialOverdraft, Gender gender, String city) {
         this.name = name;
         this.initialOverdraft = initialOverdraft;
         this.gender = gender;
+        this.city = city;
     }
 
-    public Client(String name, Gender gender) {
-        this(name, 0, gender);
+    public Client(String name, Gender gender, String city) {
+        this(name, 0, gender, city);
     }
 
     public float getInitialBalance() {
         return initialBalance;
     }
 
-    public void setInitialBalance(float initialBalance) {
-        this.initialBalance = initialBalance;
-
-    }
+    public void setInitialBalance(float initialBalance) { this.initialBalance = initialBalance; }
 
     public float getInitialOverdraft() {
         return initialOverdraft;
@@ -51,12 +48,20 @@ public class Client implements Report {
         return this.name;
     }
 
-    public List<Account> getAccounts() {
+    public String getCity() { return this.city; }
+
+    //public void setCity(String city) { this.city = city; }
+
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
     public void addAccount(Account account) {
         accounts.add(account);
+    }
+
+    private String getClientSalutation() {
+        return gender.getSalutation();
     }
 
     public void printReport() {
@@ -69,32 +74,31 @@ public class Client implements Report {
 
     }
 
-    private String getClientSalutation() {
-        return gender.getSalutation();
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return name.equals(client.name) &&
-                gender == client.gender;
+        return Float.compare(client.initialOverdraft, initialOverdraft) == 0 && Float.compare(client.initialBalance, initialBalance) == 0 && name.equals(client.name) && gender == client.gender && city.equals(client.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, gender);
+        return Objects.hash(name, initialOverdraft, initialBalance, gender, city);
     }
 
     @Override
     public String toString() {
-        StringBuilder strings = new StringBuilder();
-        strings.append("Client{" + "name='" + name + ", gender=" + gender + '}');
-        for (Account account : accounts) {
-            strings.append("Account:" + account.toString());
-        }
-        return strings.toString();
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", balance=" + activeAccount.getBalance() +
+                ", initialOverdraft=" + initialOverdraft +
+                ", gender=" + gender +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 }
